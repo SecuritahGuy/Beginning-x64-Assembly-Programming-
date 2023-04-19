@@ -1,0 +1,55 @@
+     1                                  ;alive2.asm
+     2                                  BITS 64;
+     3                                  section .text
+     4 00000000 48656C6C6F2C20576F-         msg1 db "Hello, World",0
+     4 00000009 726C6400           
+     5 0000000D 416C69766520616E64-         msg2 db "Alive and Kicking!",0
+     5 00000016 204B69636B696E6721-
+     5 0000001F 00                 
+     6 00000020 65010000                    radius dd 357
+     7 00000024 1F85EB51B81E0940            pi dq 3.14
+     8 0000002C 25730A00                    fmtstr db "%s",10,0         ;format for printing a string 
+     9 00000030 256C660A00                  fmtflot db "%lf",10,0       ;format for a float
+    10 00000035 25640A00                    fmtint db   "%d",10,0       ;format for an integer 
+    11                                  section .bss
+    12                                  section .text 
+    13                                      global main 
+    14                                  extern printf 
+    15                                  main:
+    16 00000039 55                          push rbp;
+    17 0000003A 4889E5                      mov rbp,rsp
+    18                                  
+    19                                      ;print msg1
+    20 0000003D B800000000                  mov rax,0       ;no floating point
+    21 00000042 48BF-                       mov rdi,fmtstr
+    21 00000044 [2C00000000000000] 
+    22 0000004C 48BE-                       mov rsi,msg1
+    22 0000004E [0000000000000000] 
+    23 00000056 E8(00000000)                call printf
+    24                                  
+    25                                      ;print msg2
+    26 0000005B B800000000                  mov rax,0       ;no floating point
+    27 00000060 48BF-                       mov rdi,fmtstr
+    27 00000062 [2C00000000000000] 
+    28 0000006A 48BE-                       mov rsi,msg2
+    28 0000006C [0D00000000000000] 
+    29 00000074 E8(00000000)                call printf
+    30                                  
+    31                                      ;print radius
+    32 00000079 B800000000                  mov rax,0       ;no floating point
+    33 0000007E 48BF-                       mov rdi,fmtint
+    33 00000080 [3500000000000000] 
+    34 00000088 488B3425[20000000]          mov rsi, [radius]
+    35 00000090 E8(00000000)                call printf 
+    36                                  
+    37                                      ;print pi (float)
+    38 00000095 B801000000                  mov rax,1       ;1 xmm register used, i assume to indicate a floating point
+    39 0000009A F30F7E0425-                 movq xmm0,[pi]
+    39 0000009F [24000000]         
+    40 000000A3 48BF-                       mov rdi,fmtflot
+    40 000000A5 [3000000000000000] 
+    41 000000AD E8(00000000)                call printf 
+    42                                  
+    43 000000B2 4889EC                      mov rsp,rbp 
+    44 000000B5 5D                          pop rbp 
+    45 000000B6 C3                          ret 
