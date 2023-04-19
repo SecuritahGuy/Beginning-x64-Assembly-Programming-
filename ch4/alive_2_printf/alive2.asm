@@ -31,12 +31,12 @@ main:
     ;print radius
     mov rax,0       ;no floating point
     mov rdi,fmtint
-    mov rsi, [radius]
+    mov rsi, [radius]   ;brackets indicate a value instead of an address, as printf wants values for numbers
     call printf 
 
     ;print pi (float)
     mov rax,1       ;1 xmm register used, i assume to indicate a floating point
-    movq xmm0,[pi]
+    movq xmm0,[pi]      ;bracket indicates value instead of memory address like printing strings 
     mov rdi,fmtflot
     call printf 
 
